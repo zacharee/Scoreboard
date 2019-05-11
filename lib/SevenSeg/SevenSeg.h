@@ -35,7 +35,7 @@ class SevenSeg
     // Low level functions for initializing hardware
     void setCommonAnode();
     void setCommonCathode();
-    void setDigitPins(int,int *);
+    void setDigitPins(int,unsigned char *);
     void setActivePinState(int,int);
     void setDPPin(int);
     void setColonPin(int);
@@ -87,22 +87,22 @@ class SevenSeg
   private:
 
     // The pins for each of the seven segments (eight with decimal point)
-    int _A;
-    int _B;
-    int _C;
-    int _D;
-    int _E;
-    int _F;
-    int _G;
-    int _DP;	// -1 when decimal point not assigned
+    unsigned char _A;
+    unsigned char _B;
+    unsigned char _C;
+    unsigned char _D;
+    unsigned char _E;
+    unsigned char _F;
+    unsigned char _G;
+    unsigned char _DP;	// -1 when decimal point not assigned
 
     // Variables used for colon and apostrophe symbols
-    int _colonState;	// Whether colon is on (_segOn) or off (_segOff).
-    int _aposState;	// Whether apostorphe is on (_segOn) or off (_segOff).
-    int _colonSegPin;
-    int _colonSegLPin;
-    int _aposSegPin;
-    int _symbDigPin;
+    unsigned char _colonState;	// Whether colon is on (_segOn) or off (_segOff).
+    unsigned char _aposState;	// Whether apostorphe is on (_segOn) or off (_segOff).
+    unsigned char _colonSegPin;
+    unsigned char _colonSegLPin;
+    unsigned char _aposSegPin;
+    unsigned char _symbDigPin;
 
     /* The colon/apostrophe handling needs some further explanation:
      *
@@ -128,14 +128,14 @@ class SevenSeg
      */
 
     // The pins for each of the digits
-    int *_dig;
-    int _numOfDigits;
+    unsigned char *_dig;
+    unsigned char _numOfDigits;
 
     // Timing variables. Stored in microseconds.
-    long int _digitDelay;		// How much time spent per display during multiplexing.
-    long int _digitOnDelay;		// How much on-time per display (used for dimming), i.e. it could be on only 40% of digitDelay
-    long int _digitOffDelay;		// digitDelay minus digitOnDelay
-    int _dutyCycle;		// The duty cycle (digitOnDelay/digitDelay, here in percent)
+    long unsigned int _digitDelay;		// How much time spent per display during multiplexing.
+    long unsigned int _digitOnDelay;		// How much on-time per display (used for dimming), i.e. it could be on only 40% of digitDelay
+    long unsigned int _digitOffDelay;		// digitDelay minus digitOnDelay
+    unsigned int _dutyCycle;		// The duty cycle (digitOnDelay/digitDelay, here in percent)
     // Strictly speaking, _digitOnDelay and _digitOffDelay holds redundant information, but are stored so the computations only
     // needs to be made once. There's an internal update function to update them based on the _digitDelay and _dutyCycle
 
@@ -146,27 +146,27 @@ class SevenSeg
 
     // Sets which values (HIGH or LOW) pins should have to turn on/off segments or digits.
     // This depends on whether the display is Common Anode or Common Cathode.
-    int _digOn;
-    int _digOff;
-    int _segOn;
-    int _segOff;
+    unsigned char _digOn;
+    unsigned char _digOff;
+    unsigned char _segOn;
+    unsigned char _segOff;
 
     // Variables used by interrupt service routine to keep track of stuff
-    int _timerDigit;		// What digit interrupt timer should update next time
-    int _timerPhase;		// What phase of the cycle it is to update, i.e. phase 1 (on), or phase 0 (off). Needed for duty cycling.
-    int _timerID;		// Values 0,1,2 corresponds to using timer0, timer1 or timer2.
-    long int _timerCounter;		// Prescaler of 64 is used since this is available on all timers (0, 1 and 2).
+    unsigned int _timerDigit;		// What digit interrupt timer should update next time
+    unsigned int _timerPhase;		// What phase of the cycle it is to update, i.e. phase 1 (on), or phase 0 (off). Needed for duty cycling.
+    unsigned char _timerID;		// Values 0,1,2 corresponds to using timer0, timer1 or timer2.
+    unsigned long int _timerCounter;		// Prescaler of 64 is used since this is available on all timers (0, 1 and 2).
 				// Timer registers are not sufficiently large. This counter variable will extend upon the original timer.
 				// and increment by one each time.
-    long int _timerCounterOnEnd;	// How far _timerCounter should count to provide a delay approximately equal to _digitOnDelay
-    long int _timerCounterOffEnd;	// How far _timerCounter should count to provide a delay approximately equal to _digitOffDelay
+    unsigned long int _timerCounterOnEnd;	// How far _timerCounter should count to provide a delay approximately equal to _digitOnDelay
+    unsigned long int _timerCounterOffEnd;	// How far _timerCounter should count to provide a delay approximately equal to _digitOffDelay
 
     // What is to be printed by interruptAction is determined by these variables
-    long int _writeInt;		// Holds the number to be written in case of int, fixed point, or clock
-    int _writePoint;		// Holds the number of digits to use as decimals in case of fixed point
+    long unsigned int _writeInt;		// Holds the number to be written in case of int, fixed point, or clock
+    unsigned int _writePoint;		// Holds the number of digits to use as decimals in case of fixed point
 //    float _writeFloat;		// Holds the float to write in case of float. OBSOLETE: Float are converted to fixed point
-    char *_writeStr;		// Holds a pointer to a string to write in case of string
-    char _writeMode;		// 'p' for fixed point, 'i' for integer, 'f' for float, ':'/'.'/'_' for clock with according divisor symbol
+    unsigned char *_writeStr;		// Holds a pointer to a string to write in case of string
+    unsigned char _writeMode;		// 'p' for fixed point, 'i' for integer, 'f' for float, ':'/'.'/'_' for clock with according divisor symbol
     String _writeStrObj;
 
 };

@@ -98,7 +98,7 @@ void SevenSeg::setCommonCathode(){
 
 void SevenSeg::clearDisp(){
 
-  for(int i=0;i<_numOfDigits;i++){
+  for(unsigned int i=0;i<_numOfDigits;i++){
     digitalWrite(_dig[i], _digOff);
   }
   digitalWrite(_A, _segOff);
@@ -125,7 +125,7 @@ void SevenSeg::clearDisp(){
    actually contain all the information about the display. Further on you rely on the array
    being declared in a persistent scope and that the user doesn't change it.
 */
-void SevenSeg::setDigitPins(int numOfDigits, int *pDigitPins){
+void SevenSeg::setDigitPins(int numOfDigits, unsigned char *pDigitPins){
   _dig=pDigitPins;
   _numOfDigits=numOfDigits;
 
@@ -618,7 +618,7 @@ void SevenSeg::interruptAction(){
     }
 
     if(_timerDigit==_numOfDigits) changeDigit('s');
-    else changeDigit(_timerDigit);
+    else changeDigit((int) _timerDigit);
 
     if(_timerDigit!=_numOfDigits){
 

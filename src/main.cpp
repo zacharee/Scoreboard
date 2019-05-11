@@ -1,32 +1,32 @@
 #include "../lib/SevenSeg/SevenSeg.h"
 
-const int digitCount = 4;
+const unsigned char digitCount = 4;
 
-const int com1 = 13;
-const int com2 = 12;
-const int com3 = 11;
-const int com4 = 10;
+const unsigned char com1 = 5;
+const unsigned char com2 = 4;
+const unsigned char com3 = 3;
+const unsigned char com4 = 2;
 
-int digits[digitCount] = {com1, com2, com3, com4};
+unsigned char digits[digitCount] = {com1, com2, com3, com4};
 
-const int segA = 9;
-const int segB = 8;
-const int segC = 7;
-const int segD = 6;
-const int segE = 5;
-const int segF = 4;
-const int segG = 3;
-const int segDP = 2;
+const unsigned char segA = 13;
+const unsigned char segB = 12;
+const unsigned char segC = 11;
+const unsigned char segD = 10;
+const unsigned char segE = 9;
+const unsigned char segF = 8;
+const unsigned char segG = 7;
+const unsigned char segDP = 6;
 
-const int threshold = 512;
-const int max = 99;
+const unsigned int threshold = 512;
+const unsigned char max = 99;
 
-const int input1 = A0;
-const int input2 = A1;
-const int inputReset = A2;
+const unsigned char input1 = A0;
+const unsigned char input2 = A1;
+const unsigned char inputReset = A2;
 
-int score1 = 0;
-int score2 = 0;
+unsigned char score1 = 0;
+unsigned char score2 = 0;
 
 bool was1Pressed = false;
 bool was2Pressed = false;
@@ -42,17 +42,12 @@ SevenSeg seg(
         segG
         );
 
-bool isPressed(int pin) {
+bool isPressed(char pin) {
     return analogRead(pin) < threshold;
 }
 
 void setup() {
-    pinMode(input1, INPUT);
-    pinMode(input2, INPUT);
-
-    Serial.begin(115200);
-
-    seg.setCommonCathode();
+    seg.setCommonAnode();
     seg.setDigitPins(digitCount, digits);
     seg.setDPPin(segDP);
 }
@@ -86,9 +81,9 @@ void loop() {
         wasResetPressed = false;
     }
 
-    char value[100];
+    char value[4];
 
-    snprintf(value, 100, "%2d%2d", score1, score2);
+    snprintf(value, 4, "%2d%2d", score1, score2);
 
     seg.write(value);
 }
